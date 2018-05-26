@@ -1,0 +1,8 @@
+[package]
+name = "molecule-dev"
+version = "0.1.0"
+authors = ["Christopher Kaag <christopher.kaag@gmail.com>"]
+
+[dependencies]
+diesel = { version = "1.3", features = ["sqlite"] }
+dotenv = "0.10"

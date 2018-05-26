@@ -1,0 +1,9 @@
+DROP TABLE posts;
+DROP TABLE users;
+DROP TABLE files;
+DROP TABLE sites;
+DROP TABLE pages;
+DROP TABLE portlets;
+DROP TABLE structures;
+DROP TABLE templates;
+DROP TABLE articles;
