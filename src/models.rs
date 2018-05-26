@@ -1,4 +1,4 @@
-use super::schema::posts;
+use super::schema::*;
 
 #[derive(Insertable)]
 #[table_name="posts"]
@@ -16,8 +16,27 @@ pub struct Post {
     pub published: bool,
 }
 
-pub struct User {
 
+
+#[derive(Insertable)]
+#[table_name="users"]
+pub struct NewUser<'a> {
+    pub screen_name: &'a str,
+    pub original_site_id: i32,
+}
+
+
+#[derive(Queryable)]
+pub struct User {
+    pub user_id: i32,
+    pub screen_name: String,
+    pub first_name: String,
+    pub last_name: String,
+    pub anrede: String,
+    pub geburtstag: i32,
+    pub email: String,
+    pub portrait: Option<i32>,
+    pub original_site_id: i32,
 }
 
 pub struct File {

@@ -9,13 +9,14 @@ CREATE TABLE posts (
 CREATE TABLE users (
   user_id INTEGER NOT NULL PRIMARY KEY,
   screen_name VARCHAR NOT NULL,
-  first_name VARCHAR,
-  last_name VARCHAR,
-  anrede VARCHAR,
-  geburtstag INTEGER,
-  email VARCHAR,
+  first_name VARCHAR NOT NULL  DEFAULT '',
+  last_name VARCHAR NOT NULL  DEFAULT '',
+  anrede VARCHAR NOT NULL  DEFAULT '',
+  geburtstag INTEGER NOT NULL DEFAULT 0,
+  email VARCHAR NOT NULL  DEFAULT '',
   portrait INTEGER,
-  original_site_id INTEGER
+  original_site_id INTEGER NOT NULL--,
+  --FOREIGN KEY(portrait) REFERENCES files(file_id)
 );
 
 CREATE TABLE files (
@@ -24,17 +25,19 @@ CREATE TABLE files (
   file_id INTEGER NOT NULL PRIMARY KEY,
   file_type_id INTEGER NOT NULL,
   site_id INTEGER NOT NULL,
-  folder_id INTEGER NOT NULL
+  folder_id INTEGER NOT NULL,
+  FOREIGN KEY(site_id) REFERENCES sites(site_id)
 );
 
 CREATE TABLE sites (
   site_id  INTEGER NOT NULL PRIMARY KEY,
-  parent_site_id INTEGER NOT NULL,
+  parent_site_id INTEGER,
 friendly_url VARCHAR NOT NULL,
 theme_id INTEGER NOT NULL,
 additional_javascript VARCHAR NOT NULL,
 additional_css VARCHAR NOT NULL,
-title VARCHAR NOT NULL
+title VARCHAR NOT NULL,
+  FOREIGN KEY(parent_site_id) REFERENCES sites(site_id)
 
 );
 
@@ -43,10 +46,11 @@ CREATE TABLE pages (
   page_id INTEGER NOT NULL PRIMARY KEY,
 title VARCHAR NOT NULL,
 friendly_url VARCHAR NOT NULL,
-parent_page_id INTEGER NOT NULL,
+parent_page_id INTEGER,
 additional_javascript VARCHAR NOT NULL,
-additional_css VARCHAR NOT NULL
-
+additional_css VARCHAR NOT NULL,
+  FOREIGN KEY(parent_page_id) REFERENCES pages(page_id),
+  FOREIGN KEY(site_id) REFERENCES sites(site_id)
 );
 
 CREATE TABLE portlets (
@@ -55,7 +59,8 @@ CREATE TABLE portlets (
   page_internal_path VARCHAR NOT NULL,
   portlet_type VARCHAR NOT NULL,
   title VARCHAR NOT NULL,
-  config VARCHAR NOT NULL
+  config VARCHAR NOT NULL,
+  FOREIGN KEY(page_id) REFERENCES pages(page_id)
 );
 
 
@@ -72,13 +77,16 @@ create_date INTEGER NOT NULL,
 modified_date INTEGER NOT NULL,
 create_user_id INTEGER NOT NULL,
 modified_user_id INTEGER NOT NULL,
-site_id INTEGER NOT NULL
+site_id INTEGER NOT NULL,
+  FOREIGN KEY(site_id) REFERENCES sites(site_id)
 
 );
 
 
 CREATE TABLE templates (
-  template_id INTEGER NOT NULL PRIMARY KEY
+  template_id INTEGER NOT NULL PRIMARY KEY,
+  site_id INTEGER NOT NULL,
+  FOREIGN KEY(site_id) REFERENCES sites(site_id)
 );
 
 
@@ -97,6 +105,7 @@ create_date INTEGER NOT NULL,
 modified_date INTEGER NOT NULL,
 create_user_id INTEGER NOT NULL,
 modified_user_id INTEGER NOT NULL,
-site_id INTEGER NOT NULL
+site_id INTEGER NOT NULL,
+  FOREIGN KEY(site_id) REFERENCES sites(site_id)
 
 );

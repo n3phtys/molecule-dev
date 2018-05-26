@@ -35,7 +35,7 @@ table! {
         page_id -> Integer,
         title -> Text,
         friendly_url -> Text,
-        parent_page_id -> Integer,
+        parent_page_id -> Nullable<Integer>,
         additional_javascript -> Text,
         additional_css -> Text,
     }
@@ -64,7 +64,7 @@ table! {
 table! {
     sites (site_id) {
         site_id -> Integer,
-        parent_site_id -> Integer,
+        parent_site_id -> Nullable<Integer>,
         friendly_url -> Text,
         theme_id -> Integer,
         additional_javascript -> Text,
@@ -94,6 +94,7 @@ table! {
 table! {
     templates (template_id) {
         template_id -> Integer,
+        site_id -> Integer,
     }
 }
 
@@ -101,15 +102,22 @@ table! {
     users (user_id) {
         user_id -> Integer,
         screen_name -> Text,
-        first_name -> Nullable<Text>,
-        last_name -> Nullable<Text>,
-        anrede -> Nullable<Text>,
-        geburtstag -> Nullable<Integer>,
-        email -> Nullable<Text>,
+        first_name -> Text,
+        last_name -> Text,
+        anrede -> Text,
+        geburtstag -> Integer,
+        email -> Text,
         portrait -> Nullable<Integer>,
-        original_site_id -> Nullable<Integer>,
+        original_site_id -> Integer,
     }
 }
+
+joinable!(articles -> sites (site_id));
+joinable!(files -> sites (site_id));
+joinable!(pages -> sites (site_id));
+joinable!(portlets -> pages (page_id));
+joinable!(structures -> sites (site_id));
+joinable!(templates -> sites (site_id));
 
 allow_tables_to_appear_in_same_query!(
     articles,
