@@ -11,6 +11,7 @@ pub mod microservice;
 pub mod common;
 pub mod database;
 pub mod datasourcing;
+pub mod config;
 pub mod messaging;
 pub mod cache;
 pub mod authentication;
