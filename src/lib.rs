@@ -1,9 +1,21 @@
 #[macro_use]
 extern crate diesel;
 extern crate dotenv;
+#[macro_use] extern crate serde_derive;
+extern crate serde_json;
+extern crate serde;
 
 pub mod schema;
 pub mod models;
+pub mod microservice;
+pub mod common;
+pub mod database;
+pub mod datasourcing;
+pub mod messaging;
+pub mod cache;
+pub mod authentication;
+pub mod authorization;
+pub mod templating;
 
 use diesel::prelude::*;
 use dotenv::dotenv;
