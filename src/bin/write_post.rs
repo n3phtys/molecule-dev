@@ -3,13 +3,13 @@ extern crate molecule;
 
 use molecule::*;
 
-use molecule::models::*;
+use molecule::database::models::*;
 
 
 use std::io::{stdin, Read};
 
 fn main() {
-    let connection = establish_connection();
+    let connection = database::establish_connection();
 
     println!("What would you like your title to be?");
     let mut title = String::new();

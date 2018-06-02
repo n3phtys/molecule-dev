@@ -3,15 +3,15 @@ extern crate molecule;
 
 use molecule::*;
 
-use molecule::models::*;
+use molecule::database::models::*;
 
 
 use diesel::prelude::*;
 
 fn main() {
-    use self::schema::posts::dsl::*;
+    use self::molecule::database::schema::posts::dsl::*;
 
-    let connection = establish_connection();
+    let connection = database::establish_connection();
     let results = posts
         .filter(published.eq(true))
         .limit(5)

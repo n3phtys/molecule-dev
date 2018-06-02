@@ -1,36 +1,29 @@
 #[macro_use]
 extern crate diesel;
 extern crate dotenv;
-#[macro_use] extern crate serde_derive;
-extern crate serde_json;
+#[macro_use]
+extern crate serde_derive;
 extern crate serde;
+extern crate serde_json;
+#[macro_use]
+extern crate diesel_migrations;
 
-pub mod schema;
-pub mod models;
-pub mod microservice;
-pub mod common;
-pub mod database;
-pub mod datasourcing;
-pub mod config;
-pub mod messaging;
-pub mod cache;
 pub mod authentication;
 pub mod authorization;
+pub mod cache;
+pub mod common;
+pub mod config;
+pub mod database;
+pub mod datasourcing;
+pub mod messaging;
+pub mod microservice;
 pub mod templating;
 
+use database::models;
+use database::schema;
 use diesel::prelude::*;
-use dotenv::dotenv;
-use std::env;
 
 use self::models::NewPost;
-
-pub fn establish_connection() -> SqliteConnection {
-    dotenv().ok();
-
-    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
-    SqliteConnection::establish(&database_url)
-        .expect(&format!("Error connecting to {}", database_url))
-}
 
 pub fn create_post(conn: &SqliteConnection, title: &str, body: &str) -> usize {
     use schema::posts;

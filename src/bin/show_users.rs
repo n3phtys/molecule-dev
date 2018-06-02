@@ -3,15 +3,15 @@ extern crate molecule;
 
 use molecule::*;
 
-use molecule::models::*;
+use molecule::database::models::*;
 
 
 use diesel::prelude::*;
 
 fn main() {
-    use self::schema::users::dsl::*;
+    use self::molecule::database::schema::users::dsl::*;
 
-    let connection = establish_connection();
+    let connection = database::establish_connection();
 
 
     let new_user = NewUser {
@@ -19,7 +19,7 @@ fn main() {
         original_site_id: 1,
     };
 
-    diesel::insert_into(self::schema::users::table)
+    diesel::insert_into(self::molecule::database::schema::users::table)
         .values(&new_user)
         .execute(&connection)
         .expect("Error saving new user");
