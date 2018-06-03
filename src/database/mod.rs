@@ -38,6 +38,13 @@ pub fn establish_connection() -> SqliteConnection {
         .expect(&format!("Error connecting to {}", database_url))
 }
 
+pub fn update_user(conn: &SqliteConnection, user: &User) -> Result<usize, diesel::result::Error> {
+    use schema::users;
+    diesel::update(users.find(user.user_id))
+        .set(user)
+        .execute(conn)
+}
+
 pub fn create_user(
     conn: &SqliteConnection,
     site_id: SiteId,

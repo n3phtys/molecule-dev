@@ -1,12 +1,11 @@
 use super::schema::*;
 
 #[derive(Insertable)]
-#[table_name="posts"]
+#[table_name = "posts"]
 pub struct NewPost<'a> {
     pub title: &'a str,
     pub body: &'a str,
 }
-
 
 #[derive(Queryable)]
 pub struct Post {
@@ -16,17 +15,14 @@ pub struct Post {
     pub published: bool,
 }
 
-
-
 #[derive(Insertable)]
-#[table_name="users"]
+#[table_name = "users"]
 pub struct NewUser<'a> {
     pub screen_name: &'a str,
     pub original_site_id: i32,
 }
 
-
-#[derive(Queryable)]
+#[derive(Queryable, AsChangeset)]
 pub struct User {
     pub user_id: i32,
     pub screen_name: String,
@@ -39,30 +35,16 @@ pub struct User {
     pub original_site_id: i32,
 }
 
-pub struct File {
+pub struct File {}
 
-}
+pub struct Structure {}
 
-pub struct Structure {
+pub struct Template {}
 
-}
+pub struct Article {}
 
-pub struct Template {
+pub struct Site {}
 
-}
+pub struct Page {}
 
-pub struct Article {
-
-}
-
-pub struct Site {
-
-}
-
-pub struct Page {
-
-}
-
-pub struct Portlet {
-
-}
+pub struct Portlet {}
