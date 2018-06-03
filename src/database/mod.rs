@@ -39,7 +39,6 @@ pub fn establish_connection() -> SqliteConnection {
 }
 
 pub fn update_user(conn: &SqliteConnection, user: &User) -> Result<usize, diesel::result::Error> {
-    use schema::users;
     diesel::update(users.find(user.user_id))
         .set(user)
         .execute(conn)
@@ -49,7 +48,7 @@ pub fn create_user(
     conn: &SqliteConnection,
     site_id: SiteId,
     name: &str,
-) -> std::result::Result<usize, diesel::result::Error> {
+) -> std::result::Result<User, diesel::result::Error> {
     use database::models::NewUser;
     use schema::users;
 
@@ -58,9 +57,13 @@ pub fn create_user(
         original_site_id: site_id.0,
     };
 
-    return diesel::insert_into(users::table)
+    return match diesel::insert_into(users::table)
         .values(&new_user)
-        .execute(conn);
+        .execute(conn)
+    {
+        Ok(n) => users.order(user_id.desc()).first::<User>(conn),
+        Err(e) => Err(e),
+    };
 }
 
 pub fn delete_user(
@@ -104,7 +107,6 @@ fn create_one_user_and_delete() {
     let site_id = SiteId(42i32);
     let name = "alice";
     let number_of_users = create_user(&conn, site_id, name).expect("should create user");
-    assert_eq!(number_of_users, 1);
     let my_users = retrieve_users(&conn, site_id, 0, 100).expect("should retrieve users");
     let del = delete_user(&conn, UserId(my_users[0].user_id)).expect("delete user should work");
     assert_eq!(del, 1);
