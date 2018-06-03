@@ -112,12 +112,29 @@ table! {
     }
 }
 
+table! {
+    vocabulary (vocabulary_id) {
+        vocabulary_id -> Integer,
+        title -> Text,
+    }
+}
+
+table! {
+    vocabulary_entry (vocabulary_entry_id) {
+        vocabulary_entry_id -> Integer,
+        title -> Text,
+        vocabulary_id -> Integer,
+        parent_vocabulary_entry_id -> Nullable<Integer>,
+    }
+}
+
 joinable!(articles -> sites (site_id));
 joinable!(files -> sites (site_id));
 joinable!(pages -> sites (site_id));
 joinable!(portlets -> pages (page_id));
 joinable!(structures -> sites (site_id));
 joinable!(templates -> sites (site_id));
+joinable!(vocabulary_entry -> vocabulary (vocabulary_id));
 
 allow_tables_to_appear_in_same_query!(
     articles,
@@ -129,4 +146,6 @@ allow_tables_to_appear_in_same_query!(
     structures,
     templates,
     users,
+    vocabulary,
+    vocabulary_entry,
 );

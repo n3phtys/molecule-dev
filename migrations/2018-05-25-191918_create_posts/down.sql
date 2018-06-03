@@ -7,3 +7,5 @@ DROP TABLE portlets;
 DROP TABLE structures;
 DROP TABLE templates;
 DROP TABLE articles;
+DROP TABLE vocabularies;
+DROP TABLE vocabulary_entries;

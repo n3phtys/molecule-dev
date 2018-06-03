@@ -109,3 +109,18 @@ site_id INTEGER NOT NULL,
   FOREIGN KEY(site_id) REFERENCES sites(site_id)
 
 );
+
+
+CREATE TABLE vocabularies (
+  vocabulary_id INTEGER NOT NULL PRIMARY KEY,
+  title VARCHAR NOT NULL DEFAULT ''
+);
+
+
+CREATE TABLE vocabulary_entries (
+    vocabulary_entry_id INTEGER NOT NULL PRIMARY KEY,
+    title VARCHAR NOT NULL DEFAULT '' ,
+    vocabulary_id INTEGER NOT NULL,
+    parent_vocabulary_entry_id INTEGER,
+    FOREIGN KEY (vocabulary_id) REFERENCES vocabulary(vocabulary_id)
+);
